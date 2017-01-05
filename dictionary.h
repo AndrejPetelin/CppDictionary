@@ -19,6 +19,15 @@ public:
     }
 
     void add(const std::vector<std::string>& vec) { for (auto i : vec) add(i); }
+    
+    void join(const Dictionary& rhs)
+    {
+        for (auto& i : rhs._dict)
+        {
+            if (_dict.find(i.first) != _dict.end()) _dict[i.first] += i.second;
+            else _dict[i.first] = i.second;
+        }
+    }
 
     int find(const std::string& str) const
     {
@@ -33,10 +42,10 @@ public:
         return ret;
     }
 
-    std::vector<std::string> getWords(std::function<bool(const std::string&, const std::string&)> pred)
+    std::vector<std::string> getWords(std::function<bool(const std::string&, const std::string&)> predicate)
     {
         std::vector<std::string> ret = getWords();
-        std::sort(ret.begin(), ret.end(), pred);
+        std::sort(ret.begin(), ret.end(), predicate);
         return ret;
     }
 
