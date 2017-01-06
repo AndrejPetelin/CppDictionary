@@ -44,6 +44,12 @@ int main(int argc, char* argv[])
 
     dictionary.add(vec);
 
+    Dictionary dict2;
+    dict2.add("strawberry fields forever");
+    dict2.add("Abba");
+
+    dictionary = combine(dictionary, dict2);
+
     cout << "nananana appears " << dictionary.find("nananana") << " times\n";
 
     vector<string> sorted = dictionary.getWords([](std::string a, std::string b) { return a > b; });
@@ -51,6 +57,12 @@ int main(int argc, char* argv[])
     {
         cout << i << endl;
     }
+
+    cout << endl << endl << endl;
+
+    Dictionary::const_iterator it = dictionary.begin();
+
+    while (it != dictionary.end()) cout << it++->first << endl;
 
 
 }
