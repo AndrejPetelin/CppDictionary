@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+bool pred(std::string a, std::string b) { return a > b; }
 
 int main(int argc, char* argv[])
 {
@@ -52,7 +52,8 @@ int main(int argc, char* argv[])
 
     cout << "nananana appears " << dictionary.find("nananana") << " times\n";
 
-    vector<string> sorted = dictionary.getWords([](std::string a, std::string b) { return a > b; });
+    // vector<string> sorted = dictionary.getWords([](std::string a, std::string b) { return a > b; });
+    vector<string> sorted = dictionary.getWords(pred);
     for (auto i : sorted)
     {
         cout << i << endl;
