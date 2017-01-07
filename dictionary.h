@@ -101,6 +101,17 @@ public:
         return ret;
     }
 
+        std::vector<std::string> difference(const Dictionary& rhs)
+    {
+        std::vector<std::string> ret;
+        for (auto& i : _data)
+        {
+            if (!rhs.find(i.first)) ret.push_back(i.first);
+        }
+        return ret;
+    }
+
+
 private:
     std::map<std::string, size_t> _data;    // data member
 };
