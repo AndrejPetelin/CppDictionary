@@ -94,7 +94,7 @@ public:
 
     // overload that returns a vector of strings from dictionary in order defined by 
     // the provided predicate function (lambda, named function by pointer)
-    std::vector<std::string> getWords(std::function<bool(const std::string&, const std::string&)> predicate)
+    std::vector<std::string> getWords(std::function<bool(std::string, std::string)> predicate) const
     {
         std::vector<std::string> ret = getWords();
         std::sort(ret.begin(), ret.end(), predicate);

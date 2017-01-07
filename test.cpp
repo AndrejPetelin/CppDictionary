@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool pred(std::string a, std::string b) { return a > b; }
+bool pred(const std::string& a, const std::string& b) { return a > b; }
 
 int main(int argc, char* argv[])
 {
