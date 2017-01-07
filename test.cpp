@@ -10,6 +10,8 @@ bool pred(const std::string& a, const std::string& b) { return a > b; }
 
 int main(int argc, char* argv[])
 {
+    // TODO : test new functions!
+
     /*
     if (argc < 2)
     {

@@ -20,8 +20,8 @@
 #include <cstdlib>
 #include <functional>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 class Dictionary
 {
@@ -53,6 +53,12 @@ public:
 
     // add a vector of words or increment respective counters if word(s) there already
     void add(const std::vector<std::string>& vec) { for (auto i : vec) add(i); }
+
+    void add(const std::pair<std::string, size_t> p)
+    {
+        if (find(p.first) == false) _data[p.first] = p.second;
+        else _data[p.first] += p.second;
+    }
 
     // find word and remove it
     void remove(const std::string& str)
@@ -92,7 +98,7 @@ public:
         return ret;
     }
 
-    // overload that returns a vector of strings from dictionary in order defined by 
+    // overload that returns a vector of strings from dictionary in order defined by
     // the provided predicate function (lambda, named function by pointer)
     std::vector<std::string> getWords(std::function<bool(std::string, std::string)> predicate) const
     {
@@ -102,8 +108,7 @@ public:
     }
 
     // returns a vector of all elements in this which are not present in rhs
-
-        std::vector<std::string> difference(const Dictionary& rhs)
+    std::vector<std::string> difference(const Dictionary& rhs)
     {
         std::vector<std::string> ret;
         for (auto& i : _data)
@@ -113,17 +118,56 @@ public:
         return ret;
     }
 
+    // returns a vector of all elements, present in both this and rhs
+    std::vector<std::string> intersection(const Dictionary& rhs)
+    {
+        std::vector<std::string> ret;
+        for (auto& i : _data)
+        {
+            if (rhs.find(i.first)) ret.push_back(i.first);
+        }
+        return ret;
+    }
 
 private:
     std::map<std::string, size_t> _data;    // data member
 };
 
+
+//=============================================================================
+// helper functions
+//=============================================================================
+
+//-----------------------------------------------------------------------------
+// takes two dictionaries and creates a new one containing words from both,
+// summing all the word counts where a word has been entered in both
+//-----------------------------------------------------------------------------
 Dictionary combine(const Dictionary& lhs, const Dictionary& rhs)
 {
     Dictionary ret = lhs;
     ret.join(rhs);
     return ret;
 }
+
+//-----------------------------------------------------------------------------
+// takes two dictionaries and creates a new one containing words found in both,
+// summing all the word counts
+//-----------------------------------------------------------------------------
+Dictionary intersection(const Dictionary& lhs, const Dictionary& rhs)
+{
+    Dictionary ret;
+    for (auto i : lhs)
+    {
+        size_t occurR = rhs.find(i.first);
+        if (occurR > 0)
+        {
+            i.second += occurR;
+            ret.add(i);
+        }
+    }
+    return ret;
+}
+
 
 
 #endif // !GUARD_DICTIONARY_H
