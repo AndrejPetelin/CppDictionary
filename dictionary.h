@@ -101,6 +101,8 @@ public:
         return ret;
     }
 
+    // returns a vector of all elements in this which are not present in rhs
+
         std::vector<std::string> difference(const Dictionary& rhs)
     {
         std::vector<std::string> ret;
