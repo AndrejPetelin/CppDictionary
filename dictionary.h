@@ -56,7 +56,7 @@ public:
 
     void add(const std::pair<std::string, size_t> p)
     {
-        if (find(p.first) == false) _data[p.first] = p.second;
+        if (getVal(p.first) == false) _data[p.first] = p.second;
         else _data[p.first] += p.second;
     }
 
@@ -84,14 +84,19 @@ public:
     }
 
     // how many occurrences of the word?
-    int find(const std::string& str) const
+    int getVal(const std::string& str) const
     {
         const_iterator it = _data.find(str);
         return (it != _data.end()) ? it->second : 0;
     }
 
+    std::pair<std::string, size_t> getPair(const std::string& str) const
+    {
+        const_iterator it = _data.find(str);
+    }
+
     // get words as a vector of strings. Note that the order is "ASCII order"
-    std::vector<std::string> getWords() const
+    std::vector<std::string> asVector() const
     {
         std::vector<std::string> ret;
         for (auto& i : _data) ret.push_back(i.first);
@@ -100,34 +105,60 @@ public:
 
     // overload that returns a vector of strings from dictionary in order defined by
     // the provided predicate function (lambda, named function by pointer)
-    std::vector<std::string> getWords(std::function<bool(std::string, std::string)> predicate) const
+    std::vector<std::string> asVector(std::function<bool(std::string, std::string)> predicate) const
     {
-        std::vector<std::string> ret = getWords();
+        std::vector<std::string> ret = asVector();
         std::sort(ret.begin(), ret.end(), predicate);
         return ret;
     }
 
+    Dictionary difference(const Dictionary& rhs) const
+    {
+        Dictionary ret;
+        for (auto& i : _data)
+        {
+            if (!rhs.getVal(i.first)) ret.add(i);
+        }
+        return ret;
+    }
+
     // returns a vector of all elements in this which are not present in rhs
-    std::vector<std::string> difference(const Dictionary& rhs)
+    std::vector<std::string> differenceAsVector(const Dictionary& rhs) const
     {
         std::vector<std::string> ret;
         for (auto& i : _data)
         {
-            if (!rhs.find(i.first)) ret.push_back(i.first);
+            if (!rhs.getVal(i.first)) ret.push_back(i.first);
+        }
+        return ret;
+    }
+
+    Dictionary intersection(const Dictionary& rhs) const
+    {
+        Dictionary ret;
+        for (auto& i : _data)
+        {
+            size_t val = rhs.getVal(i.first);
+            if (val > 0)
+            {
+                ret.add(std::make_pair(i.first, i.second + val));
+            }
         }
         return ret;
     }
 
     // returns a vector of all elements, present in both this and rhs
-    std::vector<std::string> intersection(const Dictionary& rhs)
+    std::vector<std::string> intersectionAsVector(const Dictionary& rhs) const
     {
         std::vector<std::string> ret;
         for (auto& i : _data)
         {
-            if (rhs.find(i.first)) ret.push_back(i.first);
+            if (rhs.getVal(i.first)) ret.push_back(i.first);
         }
         return ret;
     }
+
+
 
 private:
     std::map<std::string, size_t> _data;    // data member
@@ -155,19 +186,19 @@ Dictionary combine(const Dictionary& lhs, const Dictionary& rhs)
 //-----------------------------------------------------------------------------
 Dictionary intersection(const Dictionary& lhs, const Dictionary& rhs)
 {
-    Dictionary ret;
-    for (auto i : lhs)
-    {
-        size_t occurR = rhs.find(i.first);
-        if (occurR > 0)
-        {
-            i.second += occurR;
-            ret.add(i);
-        }
-    }
-    return ret;
+    return lhs.intersection(rhs);
 }
 
+//-----------------------------------------------------------------------------
+// takes two dictionaries and creates a new one containing words found
+// in one but not the other
+//-----------------------------------------------------------------------------
+Dictionary exclusive(const Dictionary& lhs, const Dictionary& rhs)
+{
+    Dictionary ret = lhs.difference(rhs);
+    ret.join(rhs.difference(lhs));
+    return ret;
+}
 
 
 #endif // !GUARD_DICTIONARY_H

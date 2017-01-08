@@ -52,10 +52,10 @@ int main(int argc, char* argv[])
 
     dictionary = combine(dictionary, dict2);
 
-    cout << "nananana appears " << dictionary.find("nananana") << " times\n";
+    cout << "nananana appears " << dictionary.getVal("nananana") << " times\n";
 
     // vector<string> sorted = dictionary.getWords([](std::string a, std::string b) { return a > b; });
-    vector<string> sorted = dictionary.getWords(pred);
+    vector<string> sorted = dictionary.asVector(pred);
     for (auto i : sorted)
     {
         cout << i << endl;
