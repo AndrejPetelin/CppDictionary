@@ -67,5 +67,16 @@ int main(int argc, char* argv[])
 
     while (it != dictionary.end()) cout << it++->first << endl;
 
+    cout << endl << endl;
+
+    Dictionary dict3;
+    dict3.add("nananana");
+    dict3.add("here I am");
+    dict3.add("rock you like a hurricane");
+
+    Dictionary dict4 = exclusive(dictionary, dict3);
+
+    for (auto i : dict4) cout << i.first << endl;
+
 
 }
