@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     */
 
 
-    Dictionary dictionary;
+    Dictionary<string> dictionary;
     vector<string> vec;
 
     vec.push_back("234");
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
     dictionary.add(vec);
 
-    Dictionary dict2;
+    Dictionary<string> dict2;
     dict2.add("strawberry fields forever");
     dict2.add("Abba");
 
@@ -63,18 +63,18 @@ int main(int argc, char* argv[])
 
     cout << endl << endl << endl;
 
-    Dictionary::const_iterator it = dictionary.begin();
+    Dictionary<string>::const_iterator it = dictionary.begin();
 
     while (it != dictionary.end()) cout << it++->first << endl;
 
     cout << endl << endl;
 
-    Dictionary dict3;
+    Dictionary<string> dict3;
     dict3.add("nananana");
     dict3.add("here I am");
     dict3.add("rock you like a hurricane");
 
-    Dictionary dict4 = exclusive(dictionary, dict3);
+    Dictionary<string> dict4 = exclusive(dictionary, dict3);
 
     for (auto i : dict4) cout << i.first << endl;
 
