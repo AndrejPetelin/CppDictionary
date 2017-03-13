@@ -1,6 +1,22 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
+		
+ //=============================================================================		
+ // dictionary.h		
+ // (C) Andrej Petelin		
+ // last modified: 13.03.2017 (13th of March, 2017)		
+ //		
+ // Dictionary is an attempt at a python-like dictionary class in C++. It's		
+ // based around a std::map<T, size_t> (size_t for counting the number		
+ // of occurrences of a word in the dictionary.		
+ //		
+ // use Dictionary<T>::add to add string or vector of strings to a dictionary		
+ // use Dictionary<T>::remove to remove by key, iterator, iterators from to or		
+ // vector of keys.		
+ //		
+ //=============================================================================
+
 #include <algorithm>
 #include <functional>
 #include <map>
